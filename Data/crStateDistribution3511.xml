@@ -1,0 +1,6 @@
+<chart caption='' showLabels='1' showValues='1' subcaption='' palettecolors='#F31B1B,#00a65a,#605CA8,#F39C12' bgcolor='#ffffff' showborder='0' use3dlighting='1' showshadow='0' enablesmartlabels='1' startingangle='0' showpercentvalues='0' showpercentintooltip='1' decimals='1' captionfontsize='10' subcaptionfontsize='10' subcaptionfontbold='1' tooltipcolor='#ffffff' tooltipborderthickness='0' tooltipbgcolor='#000000' tooltipbgalpha='80' tooltipborderradius='2' tooltippadding='5' showhovereffect='1' showlegend='0' legendbgcolor='#ffffff' legendborderalpha='1' legendshadow='1' legenditemfontsize='10' legenditemfontcolor='#666666' usedataplotcolorforlabels='1'>
+<set label='Open' value='88' />
+<set label='Closed' value='71' />
+<set label='SQA Pending' value='20' />
+<set label='Moved to Future' value='9' />
+</chart>

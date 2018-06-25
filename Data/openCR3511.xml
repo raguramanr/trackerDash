@@ -1,0 +1,6 @@
+<chart caption='' showLabels='1' showValues='1' subcaption='' palettecolors='#F31B1B,#F31B1B,#5298C6,#5298C6' bgcolor='#ffffff' showborder='0' use3dlighting='1' showshadow='0' enablesmartlabels='1' startingangle='0' showpercentvalues='0' showpercentintooltip='0' decimals='1' captionfontsize='10' subcaptionfontsize='10' subcaptionfontbold='1' tooltipcolor='#ffffff' tooltipborderthickness='0' tooltipbgcolor='#000000' tooltipbgalpha='80' tooltipborderradius='2' tooltippadding='5' showhovereffect='1' showlegend='0' legendbgcolor='#ffffff' legendborderalpha='1' legendshadow='1' legenditemfontsize='10' legenditemfontcolor='#666666' usedataplotcolorforlabels='1'>
+<set label='Total P1' value='3' />
+<set label='Open P1'  value='1' />
+<set label='Total P2' value='68' />
+<set label='Open P2'  value='28' />
+</chart>

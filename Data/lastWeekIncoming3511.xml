@@ -1,0 +1,9 @@
+<chart caption='' subcaption='' valuePadding='5' valueFontSize='10' valueFontBold='1'  xaxisname='' yaxisname='' numberprefix='' palettecolors='#0075c2' bgcolor='#ffffff' showborder='0' showcanvasborder='0' plotborderalpha='10' useplotgradientcolor='0' plotfillalpha='50' showxaxisline='0' axislinealpha='0' yAxisMaxValue='10' divlinealpha='0' showvalues='1' showYAxisValues='0' showXAxisValues='0'  showalternatehgridcolor='0' captionfontsize='14' subcaptionfontsize='14' subcaptionfontbold='0' tooltipcolor='#ffffff' tooltipborderthickness='0' tooltipbgcolor='#000000' tooltipbgalpha='80' tooltipborderradius='2' tooltippadding='5'>
+<set label='2018-06-18' value='8' link='F-drill1-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-18' />
+<set label='2018-06-19' value='9' link='F-drill2-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-19' />
+<set label='2018-06-20' value='7' link='F-drill3-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-20' />
+<set label='2018-06-21' value='2' link='F-drill4-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-21' />
+<set label='2018-06-22' value='6' link='F-drill5-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-22' />
+<set label='2018-06-23' value='0' link='F-drill6-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-23' />
+<set label='2018-06-24' value='0' link='F-drill7-index.php?printArray=yes&targetrelease=3511&releaseName=EXOS 22.6.1&crState=creationDate&date=2018-06-24' />
+</chart>

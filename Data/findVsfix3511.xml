@@ -1,0 +1,20 @@
+<chart caption='' subcaption='' captionfontsize='14' subcaptionfontsize='14' basefontcolor='#333333' yAxisMinValue='0' basefont='Helvetica Neue,Arial' subcaptionfontbold='0' xaxisname='' yaxisname='' showvalues='1' palettecolors='#0075c2,#1aaf5d' bgcolor='#ffffff' showborder='0' showshadow='0' showalternatehgridcolor='0' showcanvasborder='0' showxaxisline='1' xaxislinethickness='1' xaxislinecolor='#999999' canvasbgcolor='#ffffff' legendborderalpha='0' legendshadow='0' divlinealpha='50' divlinecolor='#999999' divlinethickness='1' divlinedashed='1' divlinedashlen='1'>
+<categories >
+<category label='Mar-18' />
+<category label='Apr-18' />
+<category label='May-18' />
+<category label='Jun-18' />
+</categories>
+<dataset seriesName='Find' color='B22222' anchorBorderColor='B22222' anchorBgColor='B22222'>
+<set value='3' />
+<set value='19' />
+<set value='64' />
+<set value='102' />
+</dataset>
+<dataset seriesName='Fix' color='006400' anchorBorderColor='006400' anchorBgColor='006400'>
+<set value='1' />
+<set value='12' />
+<set value='60' />
+<set value='88' />
+</dataset>
+</chart>

@@ -1,0 +1,16 @@
+<chart caption=''  showLabels='1' showValues='1' subcaption='' palettecolors='#F31B1B,F39C12,#5298C6,#00a65a,#B969CB,#605CA8,#00C0EF,#3C3C3C,#7722CC,#7F5454,#547F7F,#0075c2' bgcolor='#ffffff' showborder='0' use3dlighting='1' showshadow='0' enablesmartlabels='1' startingangle='0' showpercentvalues='0' showpercentintooltip='1' decimals='1' captionfontsize='10' subcaptionfontsize='10' subcaptionfontbold='1' tooltipcolor='#ffffff' tooltipborderthickness='0' tooltipbgcolor='#000000' tooltipbgalpha='80' tooltipborderradius='2' tooltippadding='5' showhovereffect='1' showlegend='0' legendbgcolor='#ffffff' legendborderalpha='1' legendshadow='1' legenditemfontsize='10' legenditemfontcolor='#666666' usedataplotcolorforlabels='1'>
+<set label='Mark Tippens' value='7' />
+<set label='Daya Narayana' value='9' />
+<set label='Anand Sundaresh Natarajan' value='7' />
+<set label='Raj Velusamy' value='33' />
+<set label='Fee, Brendan' value='7' />
+<set label='Kevin Frick' value='4' />
+<set label='Shankar Palanivel' value='41' />
+<set label='Nispel, Markus' value='10' />
+<set label='Lou Dernosek' value='5' />
+<set label='Jimmy Blythe' value='1' />
+<set label='Gopla Ramkumar' value='28' />
+<set label='Suresh Babu Thuravupala' value='33' />
+<set label='Flaherty, Stephen' value='2' />
+<set label='Raguraman Rajan' value='1' />
+</chart>

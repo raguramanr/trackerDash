@@ -1,0 +1,86 @@
+<chart caption='' showvalues='0' plotfillalpha='95' stack100percent='0' plotgradientcolor='' formatnumberscale='0' showplotborder='0' palettecolors='#DD4B39,#F39C12,#008ee4,#00A65A,#B969CB,#0000FF' canvaspadding='0' bgcolor='FFFFFF' showalternatehgridcolor='0' divlinecolor='CCCCCC' showlegend='0' showcanvasborder='0' legendborderalpha='0' legendshadow='0' interactivelegend='0' showpercentvalues='1' showsum='1' canvasborderalpha='0' showborder='0'>
+<categories >
+<category label='System' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='Infrastructure' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='L2' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='Security' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='IP' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='NET' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='ExtremeFabric' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='VLAN' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='MPLS' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+<category label='Build Tools' stepskipped='false' appliedsmartlabel='true' labeltooltext='' />
+</categories>
+<dataset seriesName='1 - Critical' renderas='Area'>
+<set value='1' />
+<set value='1' />
+<set value='1' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+</dataset>
+<dataset seriesName='2 - Urgent' renderas='Area'>
+<set value='18' />
+<set value='15' />
+<set value='11' />
+<set value='5' />
+<set value='3' />
+<set value='7' />
+<set value='5' />
+<set value='1' />
+<set value='2' />
+<set value='' />
+</dataset>
+<dataset seriesName='3 - Important' renderas='Area'>
+<set value='37' />
+<set value='21' />
+<set value='11' />
+<set value='17' />
+<set value='12' />
+<set value='2' />
+<set value='' />
+<set value='3' />
+<set value='' />
+<set value='1' />
+</dataset>
+<dataset seriesName='4 - Moderate' renderas='Area'>
+<set value='3' />
+<set value='1' />
+<set value='1' />
+<set value='1' />
+<set value='1' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='1' />
+</dataset>
+<dataset seriesName='5 - Low' renderas='Area'>
+<set value='1' />
+<set value='1' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+</dataset>
+<dataset seriesName='0 - TBR' renderas='Area'>
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+<set value='' />
+</dataset>
+</chart>
