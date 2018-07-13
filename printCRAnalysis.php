@@ -91,14 +91,15 @@ $EXOS3021="EXOS 30.2.1";
                 echo "<div class=\"box-body\">";
 
                 echo "<table border=0 align=center width=80%>";
-                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName CRs - Including Retargets </td></tr>";
+                    echo "<tr height=25 bgcolor=65535><td colspan=3> <font color=white><center><b>$releaseName CRs - Including Retargets </td>";
+		    echo "<td bgcolor=605CA8> <font color=white><center><b>$releaseName - New Feature CRs </td></tr>";
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr>";
                      echo "<td valign=top>";
 
                         ##Master Table - Row 1 Col 1
                         echo "<table border=1 width=90% align=left>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Total CRs - Release Distribution</td></tr>";
+                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - Release Distribution</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Release</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -133,7 +134,7 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 1 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Total CRs - State Distribution </td></tr>";
+                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - State Distribution </td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>CR State</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -158,7 +159,7 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 1 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Total CRs - Regression Distribution</td></tr>";
+                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - Regression Distribution</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Regression Flag</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -179,12 +180,46 @@ $EXOS3021="EXOS 30.2.1";
 
                         echo "</table>";
                      echo "</td>";
+
+                     echo "<td rowspan=5 valign=top>";
+                        ##Master Table - Row 2 Col 4
+                        echo "<table border=1 width=90% align=right>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Feature Name</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "</tr>";
+
+
+                                unset($metaData);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+                                                @$metaData[$data['metaData']]++;
+                                        }
+                                }
+
+                                arsort($metaData);
+                                $totalCount=0;
+                                foreach($metaData as $key=>$value) {
+                                        if ($key != "") {
+                                          echo "<tr>";
+                                          echo "<td>$key</td>";
+                                          echo "<td align=center>$value</td>";
+                                          echo "</tr>";
+                                          $totalCount = $totalCount + $value;
+                                        }
+                                }
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+
+                        echo "</table>";
+
+
                      echo "</tr>";
 
                     ####### Master Table - Beginning of Second Row 
-                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
-                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName - All CRs</td></tr>";
-                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
+                    echo "<tr><td colspan=3>&nbsp;</td></tr>";
+                    echo "<tr height=25 bgcolor=605CA8><td colspan=3> <font color=white><center><b>$releaseName - All CRs</td></tr>";
+                    echo "<tr><td colspan=3>&nbsp;</td></tr>";
                     echo "<tr>";
                      echo "<td valign=top>";
 
@@ -220,7 +255,7 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Functional Distribution </td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Team Distribution </td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Team</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -279,39 +314,6 @@ $EXOS3021="EXOS 30.2.1";
                         echo "</table>";
                      echo "</td>";
 
-
-                     echo "<td valign=top>";
-                        ##Master Table - Row 2 Col 4
-                        echo "<table border=1 width=90% align=right>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
-                                echo "<tr>";
-                                echo "<th bgcolor=DDEBF7>Feature Name</th>";
-                                echo "<th bgcolor=DDEBF7><center>Total</th>";
-                                echo "</tr>";
-
-
-                                unset($metaData);
-                                foreach($crList as $data) {
-                                        if($data[releaseDetected] == $releaseName) {
-                                                @$metaData[$data['metaData']]++;
-                                        }
-                                }
-				
-				arsort($metaData);
-				$totalCount=0;
-                                foreach($metaData as $key=>$value) {
-					if ($key != "") {
-                                          echo "<tr>";
-                                          echo "<td>$key</td>";
-                                          echo "<td align=center>$value</td>";
-                                          echo "</tr>";
-					  $totalCount = $totalCount + $value;
-					}
-                                }
-				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
-
-                        echo "</table>";
-                     echo "</td>";
                      echo "</tr>";
 
 
@@ -357,9 +359,9 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 3 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Functional Distribution </td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Team Distribution </td></tr>";
                                 echo "<tr>";
-                                echo "<th bgcolor=DDEBF7>CR State</th>";
+                                echo "<th bgcolor=DDEBF7>Team</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
                                 echo "</tr>";
 
@@ -403,7 +405,7 @@ $EXOS3021="EXOS 30.2.1";
 
                                 unset($crRegression);
                                 foreach($crList as $data) {
-                                        if($data[releaseDetected] == $releaseName) {
+                                        if($data[releaseDetected] == $releaseName && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
                                                 @$crRegression[$data['passedPreviously']]++;
                                         }
                                 }
@@ -422,7 +424,7 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 3 Col 4
                         echo "<table border=1 width=90% align=right>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs [P1/P2]</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Feature Name</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -459,100 +461,14 @@ $EXOS3021="EXOS 30.2.1";
                 echo "</tr>";
                 echo "</table>";
 
-
-
-
                 echo "</div><!-- /.box-body -->";
               echo "</div><!-- /.box -->";
             echo "</div><!-- /.col -->";
           echo "</div><!-- /.row -->";
 
-/*
-        #<!-- Creating another row and table to print the CQG ordered by number of assignees --> 
-
-          echo "<div class=\"row\">";
-            echo "<div class=\"col-md-3\">";
-              echo "<div class=\"box\">";
-                echo "<div class=\"box-header\">";
-                echo "</div>"; #<!-- /.box-header -->
-                echo "<div class=\"box-body\">";
-                  echo "<table id=\"cqgDistribution\" class=\"table table-bordered table-striped\">";
-                    echo "<thead>";
-                      echo "<tr>";
-                        echo "<th>Verifer</th>";
-                        echo "<th>Total</th>";
-                      echo "</tr>";
-                    echo "</thead>";
-                    echo "<tbody>";
-
-                    foreach($cqgList as $data) {
-                        @$cqgAssignedTo[$data['bugDescriptions_assignedTo']]++;
-                    }
-                    arsort($cqgAssignedTo);
-                    printCQGassignedToDistribution($cqgAssignedTo, cqgPriorityDistribution);
-                    printCQGfindVsfix($cqgDateList, cqgfindVsfix);
-                    printCQGClosureTime($cqgDateList, cqgClosureTime);
-                    printCQGrcDistribution($cqgDateList, cqgrcDistribution);
-
-                    foreach($cqgAssignedTo as $key=>$value) {
-                          echo "<tr>";
-                          echo "<td width=10%>$key</td>";
-                          echo "<td width=5%>$value</td>";
-                          echo "</tr>";
-                    }
-
-                    echo "</tbody>";
-                    echo "<tfoot>";
-                      echo "<tr>";
-                        echo "<th>Verifer</th>";
-                        echo "<th>Total</th>";
-                      echo "</tr>";
-                            echo "</tfoot>";
-                  echo "</table>";
-                echo "</div><!-- /.box-body -->";
-              echo "</div><!-- /.box -->";
-            echo "</div><!-- /.col -->";
-
-            echo "<div class=\"col-md-9\">";
-              echo "<div class=\"box\">";
-                echo "<div class=\"box-header\">";
-                echo "<h3>CQG Dashboard</h3>";
-                echo "</div>"; #<!-- /.box-header -->
-                echo "<div class=\"box-body\">";
-                  echo "<table width=100%>";
-                      echo "<tr>";
-                          echo "<td width=50%>";
-                          echo "<div class=\"chart\" id=\"cqgPriorityDistribution\" style=\"height: 280px; position: relative;\"></div>";
-                          echo "</td>";
-
-                          echo "<td width=50%>";
-                          echo "<div class=\"chart\" id=\"cqgfindVsfix\" style=\"height: 300px; position: relative;\"></div>";
-                          echo "</td>";
-                      echo "</tr>";
-
-                      echo "<tr>";
-                          echo "<td width=50%>";
-                          echo "<div class=\"chart\" id=\"cqgClosureTime\" style=\"height: 300px; position: relative;\"></div>";
-                          echo "</td>";
-
-                          echo "<td width=50%>";
-                          echo "<div class=\"chart\" id=\"cqgrcDistribution\" style=\"height: 300px; position: relative;\"></div>";
-                          echo "</td>";
-                      echo "</tr>";
-                   echo "</tbody>";
-                  echo "</table>";
-                echo "</div><!-- /.box-body -->";
-              echo "</div><!-- /.box -->";
-            echo "</div><!-- /.col -->";
-
-*/
-
-          echo "</div><!-- /.row -->";
-        echo "</section><!-- /.content -->";
       echo "</div><!-- /.content-wrapper -->";
     echo "</div><!-- ./wrapper -->";
 
-  #echo $scriptInclude;
   echo "</body>";
 echo "</html>";
 
