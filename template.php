@@ -96,6 +96,7 @@ $topBar = <<<HTML
                   <li><a href="comparator.php" target="_blank">Release Comparator</a></li>
                   <!-- <li><a href="detailedAnalysis.php?releaseName=$releaseName&targetRelease=$targetRelease" target="_blank">Custom Charts</a></li> -->
                   <li><a href="index.php?printCQG=yes" target="_blank">CQG Dashboard</a></li>
+                  <li><a href="printCRAnalysis.php?releaseName=$releaseName&targetRelease=$targetRelease" target="_blank">CR Analysis</a></li>
                 </ul>
               </li>
             </ul>
@@ -124,7 +125,23 @@ $topBarwoSearch = <<<HTML
       </header>
 HTML;
 
-
+$topBarCRAnalysis = <<<HTML
+  <body class="skin-purple layout-top-nav">
+    <div class="wrapper">
+      <header class="main-header">
+        <nav class="navbar navbar-static-top">
+          <div class="container-fluid">
+          <div class="navbar-header">
+            <a href="index.php" class="navbar-brand"><b>Tracker</b>Dash</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
+	 <ul class="nav navbar-nav navbar-right"><li><a href="#"><font size=5>EXOS 22.5.1</font></a></li>
+         </div><!-- /.container-fluid -->
+        </nav>
+      </header>
+HTML;
 
 $scriptInclude = <<<HTML
     <!-- jQuery 2.1.3 -->

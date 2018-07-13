@@ -23,6 +23,11 @@ printCQGTable($conn);
 exit;
 }
 
+#########################################################################################
+#                                                                                       #
+#  Quuerying the CR List								#
+#                                                                                       #
+#########################################################################################
 echo "<html>";
 $crList = getCRList($conn,$releaseName,$targetRelease);
 writeArraytoFile($crList, "allCRList".$targetRelease);
@@ -404,7 +409,7 @@ echo "</html>";
 
 #########################################################################################
 #                                                                                       #
-# Default EXOS Set to EXOS 22.4.1, otherwise clicked different link                     #
+# Default EXOS Set to EXOS 22.6.1, otherwise clicked different link                     #
 #                                                                                       #
 #########################################################################################
 if(isset($_POST['releaseName'])) {
