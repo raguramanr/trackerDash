@@ -55,6 +55,7 @@ $dummy = 0;
 
 $sqaMgr=array("Gopla Ramkumar","Raj Velusamy","Shankar Palanivel","Uma Parthasarathy","Raguraman Rajan");
 $autoMgr=array("Suresh Babu Thuravupala");
+$exosMgr=array("Gopla Ramkumar","Raj Velusamy","Shankar Palanivel","Uma Parthasarathy","Raguraman Rajan","Suresh Babu Thuravupala");
 
 $crList = getCRList($conn,$releaseName,$targetRelease);
 $EXOS2251="EXOS 22.5.1";
@@ -180,7 +181,7 @@ $EXOS3021="EXOS 30.2.1";
                      echo "</td>";
                      echo "</tr>";
 
-                    #Master Table - Beginning of Second Row 
+                    ####### Master Table - Beginning of Second Row 
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName - All CRs</td></tr>";
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
@@ -218,6 +219,143 @@ $EXOS3021="EXOS 30.2.1";
 
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 2
+                        echo "<table border=1 width=90% align=center>"; 
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Functional Distribution </td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Team</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "</tr>";
+
+
+                                unset($crCreatorManager);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+                                            if(in_array($data['creatorManager'],$sqaMgr)) {
+                                                @$crCreatorManager['SQA']++;
+                                            } elseif (in_array($data['creatorManager'],$autoMgr)) {
+                                                @$crCreatorManager['Automation']++;
+                                            } else {
+                                                @$crCreatorManager['Others']++;
+                                            }
+                                        }
+                                }
+
+
+                                arsort($crCreatorManager);
+                                foreach($crCreatorManager as $key=>$value) {
+                                        echo "<tr>";
+                                        echo "<td>$key</td>";
+                                        echo "<td align=center>$value</td>";
+                                        echo "</tr>";
+                                }
+
+                        echo "</table>";
+                     echo "</td>";
+
+                     echo "<td valign=top>";
+                        ##Master Table - Row 2 Col 3
+                        echo "<table border=1 width=90% align=right>"; 
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Regression Distribution</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Regression Flag</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "</tr>";
+
+
+                                unset($crRegression);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+                                                @$crRegression[$data['passedPreviously']]++;
+                                        }
+                                }
+
+                                foreach($crRegression as $key=>$value) {
+                                        echo "<tr>";
+                                        echo "<td>$key</td>";
+                                        echo "<td align=center>$value</td>";
+                                        echo "</tr>";
+                                }
+
+                        echo "</table>";
+                     echo "</td>";
+
+
+                     echo "<td valign=top>";
+                        ##Master Table - Row 2 Col 4
+                        echo "<table border=1 width=90% align=right>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Feature Name</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "</tr>";
+
+
+                                unset($metaData);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+                                                @$metaData[$data['metaData']]++;
+                                        }
+                                }
+				
+				arsort($metaData);
+				$totalCount=0;
+                                foreach($metaData as $key=>$value) {
+					if ($key != "") {
+                                          echo "<tr>";
+                                          echo "<td>$key</td>";
+                                          echo "<td align=center>$value</td>";
+                                          echo "</tr>";
+					  $totalCount = $totalCount + $value;
+					}
+                                }
+				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+
+                        echo "</table>";
+                     echo "</td>";
+                     echo "</tr>";
+
+
+                    ####### Master Table - Beginning of Third Row - Print Priority Tables 
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
+                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName - P1/P2 CRs</td></tr>";
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
+                    echo "<tr>";
+                     echo "<td valign=top>";
+
+                        ##Master Table - Row 3 Col 1
+                        echo "<table border=1 width=90% align=left>"; 
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Manager Distribution</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Manager</th>";
+                                echo "<th bgcolor=DDEBF7><center>P1/P2 CRs</th>";
+                                echo "</tr>";
+
+                                unset($crCreatorManager);
+				$totalCount=0;
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+					    if(in_array($data['creatorManager'],$exosMgr)) {
+                                                @$crCreatorManager[$data[creatorManager]]++;	
+						$totalCount++;
+					    }
+                                        }
+                                }
+
+				arsort($crCreatorManager);
+                                foreach($crCreatorManager as $key=>$value) {
+                                        echo "<tr>";
+                                        echo "<td>$key</td>";
+                                        echo "<td align=center>$value</td>";
+                                        echo "</tr>";
+                                }
+
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+
+                        echo "</table>";
+                     echo "</td>";
+
+                     echo "<td valign=top>";
+                        ##Master Table - Row 3 Col 2
                         echo "<table border=1 width=90% align=center>"; 
                                 echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Functional Distribution </td></tr>";
                                 echo "<tr>";
@@ -310,6 +448,9 @@ $EXOS3021="EXOS 30.2.1";
 
                         echo "</table>";
                      echo "</td>";
+
+
+
 
                 #Master table end tag
                 echo "</tr>";
