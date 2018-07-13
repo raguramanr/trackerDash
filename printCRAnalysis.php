@@ -50,13 +50,18 @@ $filterScript = <<<HTML
 
 HTML;
 echo $filterScript;
-echo $topBarCRAnalysis;
+echo $topBarwoSearch;
 $dummy = 0;
 
 $sqaMgr=array("Gopla Ramkumar","Raj Velusamy","Shankar Palanivel","Uma Parthasarathy","Raguraman Rajan");
 $autoMgr=array("Suresh Babu Thuravupala");
 
 $crList = getCRList($conn,$releaseName,$targetRelease);
+$EXOS2251="EXOS 22.5.1";
+$EXOS2261="EXOS 22.6.1";
+$EXOS2271="EXOS 22.7.1";
+$EXOS3011="EXOS 30.1.1";
+$EXOS3021="EXOS 30.2.1";
 
       #<!-- Right side column. Contains the navbar and content of the page -->
       echo "<div class=\"content-wrapper\">";
@@ -65,9 +70,13 @@ $crList = getCRList($conn,$releaseName,$targetRelease);
           echo "<h1>";
             echo "$releaseName - CR Analysis";
             echo "<small></small>";
-          echo "</h1>";
+          echo "</h2>";
           echo "<ol class=\"breadcrumb\">";
-            echo "<li><a href=\"index.php\"><i class=\"fa fa-dashboard\"></i> Home</a></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2251) . " ><font size=3>EXOS 22.5.1</font></a></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2261) . " ><font size=3>EXOS 22.6.1</a></font></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2271) . " ><font size=3>EXOS 22.7.1</a></font></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS3011) . " ><font size=3>EXOS 30.1.1</a></font></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS3021) . " ><font size=3>EXOS 30.2.1</a></font></li>";
           echo "</ol>";
         echo "</section>";
 
@@ -81,8 +90,8 @@ $crList = getCRList($conn,$releaseName,$targetRelease);
                 echo "<div class=\"box-body\">";
 
                 echo "<table border=0 align=center width=80%>";
-                    echo "<tr height=25 bgcolor=605CA8><td colspan=3> <font color=white><center><b>$releaseName CRs - Including Retargets </td></tr>";
-                    echo "<tr><td colspan=3>&nbsp;</td></tr>";
+                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName CRs - Including Retargets </td></tr>";
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr>";
                      echo "<td valign=top>";
 
@@ -172,9 +181,9 @@ $crList = getCRList($conn,$releaseName,$targetRelease);
                      echo "</tr>";
 
                     #Master Table - Beginning of Second Row 
-                    echo "<tr><td colspan=3>&nbsp;</td></tr>";
-                    echo "<tr height=25 bgcolor=605CA8><td colspan=3> <font color=white><center><b>$releaseName detected CRs</td></tr>";
-                    echo "<tr><td colspan=3>&nbsp;</td></tr>";
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
+                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName - All CRs</td></tr>";
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr>";
                      echo "<td valign=top>";
 
@@ -210,7 +219,7 @@ $crList = getCRList($conn,$releaseName,$targetRelease);
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Total CRs - Functional Distribution </td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Functional Distribution </td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>CR State</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -244,7 +253,7 @@ $crList = getCRList($conn,$releaseName,$targetRelease);
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Total CRs - Regression Distribution</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Regression Distribution</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Regression Flag</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -267,10 +276,43 @@ $crList = getCRList($conn,$releaseName,$targetRelease);
 
                         echo "</table>";
                      echo "</td>";
-                     echo "</tr>";
 
+
+                     echo "<td valign=top>";
+                        ##Master Table - Row 2 Col 4
+                        echo "<table border=1 width=90% align=right>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Feature Name</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "</tr>";
+
+
+                                unset($metaData);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+                                                @$metaData[$data['metaData']]++;
+                                        }
+                                }
+				
+				arsort($metaData);
+				$totalCount=0;
+                                foreach($metaData as $key=>$value) {
+					if ($key != "") {
+                                          echo "<tr>";
+                                          echo "<td>$key</td>";
+                                          echo "<td align=center>$value</td>";
+                                          echo "</tr>";
+					  $totalCount = $totalCount + $value;
+					}
+                                }
+				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+
+                        echo "</table>";
+                     echo "</td>";
 
                 #Master table end tag
+                echo "</tr>";
                 echo "</table>";
 
 
