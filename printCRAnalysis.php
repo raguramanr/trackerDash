@@ -334,7 +334,7 @@ $EXOS3021="EXOS 30.2.1";
 				$totalCount=0;
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName) {
-					    if(in_array($data['creatorManager'],$exosMgr)) {
+					    if(in_array($data['creatorManager'],$exosMgr) && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
                                                 @$crCreatorManager[$data[creatorManager]]++;	
 						$totalCount++;
 					    }
@@ -364,8 +364,9 @@ $EXOS3021="EXOS 30.2.1";
                                 echo "</tr>";
 
                                 unset($crCreatorManager);
+                                $totalCount=0;
                                 foreach($crList as $data) {
-                                        if($data[releaseDetected] == $releaseName) {
+                                        if($data[releaseDetected] == $releaseName && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
                                             if(in_array($data['creatorManager'],$sqaMgr)) {
                                                 @$crCreatorManager['SQA']++;
                                             } elseif (in_array($data['creatorManager'],$autoMgr)) {
@@ -373,6 +374,7 @@ $EXOS3021="EXOS 30.2.1";
                                             } else {
                                                 @$crCreatorManager['Others']++;
                                             }
+						$totalCount++;
                                         }
                                 }
 
@@ -384,12 +386,13 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<td align=center>$value</td>";
                                         echo "</tr>";
                                 }
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
 
                         echo "</table>";
                      echo "</td>";
 
                      echo "<td valign=top>";
-                        ##Master Table - Row 2 Col 3
+                        ##Master Table - Row 3 Col 3
                         echo "<table border=1 width=90% align=right>"; 
                                 echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Regression Distribution</td></tr>";
                                 echo "<tr>";
@@ -417,7 +420,7 @@ $EXOS3021="EXOS 30.2.1";
 
 
                      echo "<td valign=top>";
-                        ##Master Table - Row 2 Col 4
+                        ##Master Table - Row 3 Col 4
                         echo "<table border=1 width=90% align=right>";
                                 echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
                                 echo "<tr>";
@@ -428,7 +431,7 @@ $EXOS3021="EXOS 30.2.1";
 
                                 unset($metaData);
                                 foreach($crList as $data) {
-                                        if($data[releaseDetected] == $releaseName) {
+                                        if($data[releaseDetected] == $releaseName && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
                                                 @$metaData[$data['metaData']]++;
                                         }
                                 }
