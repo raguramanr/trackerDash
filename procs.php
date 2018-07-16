@@ -300,7 +300,15 @@ if ($result->num_rows > 0) {
         } elseif ((($globalState=="Feedback Needed" || $globalState=="Verify Duplicate" || $globalState=="Verify Fix" || $globalState=="Verify No Change" || $globalState=="Verify Task Complete") && ($targetReleaseId=="" || $targetReleaseId==$targetRelease)) || (($releaseState=="Verify Fix" || $releaseState=="Verify Task Complete") && $targetReleaseId==$targetRelease)) {
                 @$row['crState']="sqaPending";
         } elseif ($targetReleaseId!=$targetRelease && $targetReleaseId!="") {
-                @$row['crState']="futureScope";
+			if($globalState=="Assigned" || $globalState=="Assigned Review" || $globalState=="Build Pending" || $globalState=="Committing" || $globalState=="Idle" || $globalState=="Study") {
+				@$row['crState']="open";
+			} elseif ($globalState=="Closed" || $globalState=="Deferred" || $globalState=="Duplicate" || $globalState=="No Change" || $globalState=="Released" || $globalState=="Unverified Released" || $globalState=="Verified" || $globalState=="Task Complete") {
+				@$row['crState']="closed";
+			} elseif ($globalState=="Feedback Needed" || $globalState=="Verify Duplicate" || $globalState=="Verify Fix" || $globalState=="Verify No Change" || $globalState=="Verify Task Complete") {
+                		@$row['crState']="sqaPending";
+			} else {
+                		@$row['crState']="futureScope";
+			}
         } else {
                 $myState="Uncategorized";
                 @$row['crState']="unCategorized";
@@ -1759,6 +1767,7 @@ echo $topBar;
                       echo "<tr>";
                         echo "<th>BugNumber</th>";
                         echo "<th>Global State</th>";
+                        echo "<th>Release Detected</th>";
                         echo "<th>Release State</th>";
                         echo "<th>Summary</th>";
                         echo "<th>Severity</th>";
@@ -1777,6 +1786,7 @@ echo $topBar;
                           echo "<tr>";
                           echo "<td><a href=https://tracker.extremenetworks.com/cgi/trackerReport.pl?bugNumber=$row[bugNumber] target=\"_blank\">".$row[bugNumber]."</a></td>";
                           echo "<td>".$row[globalState]."</td>";
+                          echo "<td>".$row[releaseDetected]."</td>";
                           echo "<td>".$row[releaseState]."</td>";
                           echo "<td>".$row[summary]."</td>";
                           echo "<td>".$row[severity]."</td>";
@@ -1794,6 +1804,7 @@ echo $topBar;
                           echo "<tr>";
                           echo "<td><a href=https://tracker.extremenetworks.com/cgi/trackerReport.pl?bugNumber=$row[bugNumber] target=\"_blank\">".$row[bugNumber]."</a></td>";
                           echo "<td>".$row[globalState]."</td>";
+                          echo "<td>".$row[releaseDetected]."</td>";
                           echo "<td>".$row[releaseState]."</td>";
                           echo "<td>".$row[summary]."</td>";
                           echo "<td>".$row[severity]."</td>";
@@ -1810,6 +1821,7 @@ echo $topBar;
                           echo "<tr>";
                           echo "<td><a href=https://tracker.extremenetworks.com/cgi/trackerReport.pl?bugNumber=$row[bugNumber] target=\"_blank\">".$row[bugNumber]."</a></td>";
                           echo "<td>".$row[globalState]."</td>";
+                          echo "<td>".$row[releaseDetected]."</td>";
                           echo "<td>".$row[releaseState]."</td>";
                           echo "<td>".$row[summary]."</td>";
                           echo "<td>".$row[severity]."</td>";
@@ -1826,6 +1838,7 @@ echo $topBar;
                           echo "<tr>";
                           echo "<td><a href=https://tracker.extremenetworks.com/cgi/trackerReport.pl?bugNumber=$row[bugNumber] target=\"_blank\">".$row[bugNumber]."</a></td>";
                           echo "<td>".$row[globalState]."</td>";
+                          echo "<td>".$row[releaseDetected]."</td>";
                           echo "<td>".$row[releaseState]."</td>";
                           echo "<td>".$row[summary]."</td>";
                           echo "<td>".$row[severity]."</td>";
@@ -1844,6 +1857,7 @@ echo $topBar;
                       echo "<tr>";
                         echo "<th>BugNumber</th>";
                         echo "<th>Global State</th>";
+                        echo "<th>Release Detected</th>";
                         echo "<th>Release State</th>";
                         echo "<th>Summary</th>";
                         echo "<th>Severity</th>";
