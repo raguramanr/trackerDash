@@ -159,7 +159,7 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 1 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - Regression Distribution</td></tr>";
+                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - Collateral/Other CRs</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Regression Flag</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
@@ -263,6 +263,7 @@ $EXOS3021="EXOS 30.2.1";
 
 
                                 unset($crCreatorManager);
+				$totalCount=0;
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName) {
                                             if(in_array($data['creatorManager'],$sqaMgr)) {
@@ -272,6 +273,7 @@ $EXOS3021="EXOS 30.2.1";
                                             } else {
                                                 @$crCreatorManager['Others']++;
                                             }
+					$totalCount++;
                                         }
                                 }
 
@@ -283,6 +285,7 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<td align=center>$value</td>";
                                         echo "</tr>";
                                 }
+				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
 
                         echo "</table>";
                      echo "</td>";
@@ -290,26 +293,39 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Regression Distribution</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=4><font color=white><center><b>Collateral/Other CRs</td></tr>";
                                 echo "<tr>";
-                                echo "<th bgcolor=DDEBF7>Regression Flag</th>";
-                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7>Team</th>";
+                                echo "<th bgcolor=DDEBF7><center>Yes</th>";
+                                echo "<th bgcolor=DDEBF7><center>No</th>";
+                                echo "<th bgcolor=DDEBF7><center>Blank</th>";
                                 echo "</tr>";
-
 
                                 unset($crRegression);
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName) {
-                                                @$crRegression[$data['passedPreviously']]++;
+					    if($data['passedPreviously'] == "") {
+						$data['passedPreviously'] = "Blank";
+					    }
+                                            if(in_array($data['creatorManager'],$sqaMgr)) {
+                                                @$crRegression['SQA'][$data['passedPreviously']]++;
+                                            } elseif (in_array($data['creatorManager'],$autoMgr)) {
+                                                @$crRegression['Automation'][$data['passedPreviously']]++;
+                                            } else {
+                                                @$crRegression['Others'][$data['passedPreviously']]++;
+                                            }
                                         }
                                 }
 
-                                foreach($crRegression as $key=>$value) {
-                                        echo "<tr>";
-                                        echo "<td>$key</td>";
-                                        echo "<td align=center>$value</td>";
-                                        echo "</tr>";
-                                }
+
+				foreach ($crRegression as $key => $item) {
+                                	echo "<tr>";
+					echo "<td>$key</td>";
+					echo "<td><center>$item[Yes]</td>";
+					echo "<td><center>$item[No]</td>";
+					echo "<td><center>$item[Blank]</td>";
+                                	echo "</tr>";
+				}
 
                         echo "</table>";
                      echo "</td>";
@@ -396,24 +412,37 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 3 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Regression Distribution</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=4><font color=white><center><b>Collateral/Other CRs</td></tr>";
                                 echo "<tr>";
-                                echo "<th bgcolor=DDEBF7>Regression Flag</th>";
-                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7>Team</th>";
+                                echo "<th bgcolor=DDEBF7><center>Yes</th>";
+                                echo "<th bgcolor=DDEBF7><center>No</th>";
+                                echo "<th bgcolor=DDEBF7><center>Blank</th>";
                                 echo "</tr>";
-
 
                                 unset($crRegression);
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
-                                                @$crRegression[$data['passedPreviously']]++;
+                                            if($data['passedPreviously'] == "") {
+                                                $data['passedPreviously'] = "Blank";
+                                            }
+                                            if(in_array($data['creatorManager'],$sqaMgr)) {
+                                                @$crRegression['SQA'][$data['passedPreviously']]++;
+                                            } elseif (in_array($data['creatorManager'],$autoMgr)) {
+                                                @$crRegression['Automation'][$data['passedPreviously']]++;
+                                            } else {
+                                                @$crRegression['Others'][$data['passedPreviously']]++;
+                                            }
                                         }
                                 }
 
-                                foreach($crRegression as $key=>$value) {
+
+                                foreach ($crRegression as $key => $item) {
                                         echo "<tr>";
                                         echo "<td>$key</td>";
-                                        echo "<td align=center>$value</td>";
+                                        echo "<td><center>$item[Yes]</td>";
+                                        echo "<td><center>$item[No]</td>";
+                                        echo "<td><center>$item[Blank]</td>";
                                         echo "</tr>";
                                 }
 
