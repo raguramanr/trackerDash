@@ -78,6 +78,7 @@ $EXOS3021="EXOS 30.2.1";
             echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2271) . " ><font size=3>EXOS 22.7.1</a></font></li>";
             echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS3011) . " ><font size=3>EXOS 30.1.1</a></font></li>";
             echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS3021) . " ><font size=3>EXOS 30.2.1</a></font></li>";
+            echo "<li><a href=downloadExcel.php?getReport=allCRs&releaseName=". urlencode($releaseName) . "&targetRelease=$targetRelease&metadataKeyMapId=$metadataKeyMapId><font size=3><i class=\"fa fa-cloud-download\"></i></a></font></li>";
           echo "</ol>";
         echo "</section>";
 
@@ -188,11 +189,12 @@ $EXOS3021="EXOS 30.2.1";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Feature Name</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>Assigned</th>";
                                 echo "<th bgcolor=DDEBF7><center>P1/P2</th>";
-                                echo "<th bgcolor=DDEBF7><center>Open P1/P2</th>";
                                 echo "</tr>";
 
 
+				#Listing all MetaData CRs
                                 unset($metaData);
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName) {
@@ -200,6 +202,16 @@ $EXOS3021="EXOS 30.2.1";
                                         }
                                 }
 
+				#Listing all MetaData CRs that are in OPEN State
+                                unset($metaDataOpen);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName && $data[crState] == "open") {
+                                                @$metaDataOpen[$data['metaData']]++;
+                                        }
+                                }
+
+
+				#Listing all P1/P2 MetaData CRs and that are in OPEN State
                                 unset($metaDataP1P2);
                                 unset($metaDataP1P2Open);
                                 foreach($crList as $data) {
@@ -223,10 +235,11 @@ $EXOS3021="EXOS 30.2.1";
                                           echo "<tr>";
                                           echo "<td>$key</td>";
                                           echo "<td align=center>$value</td>";
-                                          echo "<td align=center>$metaDataP1P2[$key]</td>";
+                                          echo "<td align=center>$metaDataOpen[$key]</td>";
                                           echo "<td align=center>$metaDataP1P2Open[$key]</td>";
                                           echo "</tr>";
                                           $totalCount = $totalCount + $value;
+					  $metaDataOpenCount = $metaDataOpen[$key] + $metaDataOpenCount;
 					  $metaDataP1P2Count = $metaDataP1P2[$key] + $metaDataP1P2Count;
 					  $metaDataP1P2OpenCount = $metaDataP1P2Open[$key] + $metaDataP1P2OpenCount;
                                         }
@@ -235,7 +248,7 @@ $EXOS3021="EXOS 30.2.1";
                                 echo "<tr>";
 			        echo "<td><b>Total CRs</td>";
 			        echo "<td align=center><b>$totalCount </td>";
-				echo "<td align=center><b>$metaDataP1P2Count</td>";
+				echo "<td align=center><b>$metaDataOpenCount</td>";
 				echo "<td align=center><b>$metaDataP1P2OpenCount</td>";
 				echo "</tr>";
 
@@ -346,6 +359,7 @@ $EXOS3021="EXOS 30.2.1";
                                 }
 
 
+				arsort($crRegression);
 				foreach ($crRegression as $key => $item) {
                                 	echo "<tr>";
 					echo "<td>$key</td>";
@@ -364,7 +378,7 @@ $EXOS3021="EXOS 30.2.1";
                     ####### Master Table - Beginning of Third Row - Print Priority Tables 
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr height=25 bgcolor=605CA8><td colspan=3> <font color=white><center><b>$releaseName - P1/P2 CRs</td>";
-                    echo "<td> <font color=white><center><b>Top 10 Component/SubComponent</td></tr>";
+                    echo "<td bgcolor=0075C2> <font color=white><center><b>Top 10 Component/SubComponent</td></tr>";
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr>";
                      echo "<td valign=top>";
@@ -466,6 +480,7 @@ $EXOS3021="EXOS 30.2.1";
                                 }
 
 
+                                arsort($crRegression);
                                 foreach ($crRegression as $key => $item) {
                                         echo "<tr>";
                                         echo "<td>$key</td>";
@@ -511,11 +526,13 @@ $EXOS3021="EXOS 30.2.1";
                                 }
 				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
                           echo "</table>";
+
 			echo "</td><td valign=top>";
+
                           echo "<table border=1 width=90% align=right>";
                                 echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Top 10 SubComponent</td></tr>";
                                 echo "<tr>";
-                                echo "<th bgcolor=DDEBF7>subComponent</th>";
+                                echo "<th bgcolor=DDEBF7>SubComponent</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
                                 echo "</tr>";
 
@@ -528,7 +545,7 @@ $EXOS3021="EXOS 30.2.1";
                                 }
 
                                 arsort($subcomponentListFull);
-                                $subcomponentList = array_slice($subcomponentListFull, 0, 10, true);
+                                $subcomponentList = array_slice($subcomponentListFull, 0, 11, true);
                                 $totalCount=0;
                                 foreach($subcomponentList as $key=>$value) {
                                         if ($key != "") {
@@ -543,6 +560,89 @@ $EXOS3021="EXOS 30.2.1";
                           echo "</table>";
 			echo "</td></tr></table>";
                      echo "</td>";
+		     echo "</tr>";
+
+
+                    ####### Master Table - Beginning of Fourth Row - Print SQA Pending CRs
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
+                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>EXOS SQA - CRs to Verify and close</td>";
+                    echo "<tr><td colspan=4>&nbsp;</td></tr>";
+
+                    echo "<tr>";
+                     echo "<td valign=top>";
+
+                        ##Master Table - Row 4 Col 1
+                        echo "<table border=1 width=90% align=left>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>SQA Pending</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>Manager</th>";
+                                echo "<th bgcolor=DDEBF7><center>Pending CRs</th>";
+                                echo "</tr>";
+
+                                unset($crCreatorManager);
+                                $totalCount=0;
+                                foreach($crList as $data) {
+                                        if($data[crState] == "sqaPending" && in_array($data['creatorManager'],$exosMgr)) {
+                                                @$crCreatorManager[$data[creatorManager]]++;
+                                                $totalCount++;
+                                        }
+                                }
+
+                                arsort($crCreatorManager);
+                                foreach($crCreatorManager as $key=>$value) {
+                                        echo "<tr>";
+                                        echo "<td>$key</td>";
+                                        echo "<td align=center>$value</td>";
+                                        echo "</tr>";
+                                }
+
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+
+                        echo "</table>";
+                     echo "</td>";
+
+
+                     echo "<td valign=top colspan=3>";
+
+                        ##Master Table - Row 4 Col 2
+                        echo "<table border=1 width=100% align=center>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=8><font color=white><center><b>SQA Pending</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>CR</th>";
+                                echo "<th bgcolor=DDEBF7>Sev</th>";
+                                echo "<th bgcolor=DDEBF7>Pri</th>";
+                                echo "<th bgcolor=DDEBF7>Release</th>";
+                                echo "<th bgcolor=DDEBF7>GlobalState</th>";
+                                echo "<th bgcolor=DDEBF7>ReleaseState</th>";
+                                echo "<th bgcolor=DDEBF7>Creator</th>";
+                                echo "<th bgcolor=DDEBF7>Manager</th>";
+                                echo "</tr>";
+
+				#Sorting the array based on creatorManager
+				$crListSort = array();
+				foreach ($crList as $key => $row)
+				{
+    					$crListSort[$key] = $row['creatorManager'];
+				}
+				array_multisort($crListSort, SORT_ASC, $crList);
+
+                                foreach($crList as $data) {
+                                        if($data[crState] == "sqaPending" && in_array($data['creatorManager'],$exosMgr)) {
+                                        	echo "<tr>";
+                                        	echo "<td><a href=https://tracker.extremenetworks.com/cgi/trackerReport.pl?bugNumber=$data[bugNumber] target=\"_blank\">".$data[bugNumber]."</a></td>";
+                                        	echo "<td>$data[severity]</td>";
+                                        	echo "<td>$data[priority]</td>";
+                                        	echo "<td>$data[releaseDetected]</td>";
+                                        	echo "<td>$data[globalState]</td>";
+                                        	echo "<td>$data[releaseState]</td>";
+                                        	echo "<td>$data[creator]</td>";
+                                        	echo "<td>$data[creatorManager]</td>";
+                                        	echo "</tr>";
+                                        }
+                                }
+
+                        echo "</table>";
+                     echo "</td>";
 
                 #Master table end tag
                 echo "</tr>";
@@ -552,11 +652,16 @@ $EXOS3021="EXOS 30.2.1";
               echo "</div><!-- /.box -->";
             echo "</div><!-- /.col -->";
           echo "</div><!-- /.row -->";
-
-      echo "</div><!-- /.content-wrapper -->";
-    echo "</div><!-- ./wrapper -->";
-
   echo "</body>";
+$footer = <<<HTML
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+    </div>
+    <strong><center>RDI History </strong> [22.1.1 - 3829] [22.2.1 - 3145] [22.3.1 - 3200] [22.4.1 - 2516] [22.5.1-  2119]
+  </footer>
+HTML;
+
+echo $footer;
 echo "</html>";
 
 }
