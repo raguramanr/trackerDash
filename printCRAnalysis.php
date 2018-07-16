@@ -182,12 +182,14 @@ $EXOS3021="EXOS 30.2.1";
                      echo "</td>";
 
                      echo "<td rowspan=5 valign=top>";
-                        ##Master Table - Row 2 Col 4
+                        ##Master Table - Row 1 Col 4
                         echo "<table border=1 width=90% align=right>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=4><font color=white><center><b>New Feature CRs</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Feature Name</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>P1/P2</th>";
+                                echo "<th bgcolor=DDEBF7><center>Open P1/P2</th>";
                                 echo "</tr>";
 
 
@@ -198,18 +200,44 @@ $EXOS3021="EXOS 30.2.1";
                                         }
                                 }
 
+                                unset($metaDataP1P2);
+                                unset($metaDataP1P2Open);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
+                                                @$metaDataP1P2[$data['metaData']]++;
+						$metaDataP1P2Count++;
+						if($data[crState] == "open") {
+							@$metaDataP1P2Open[$data['metaData']]++;	
+							$metaDataP1P2OpenCount++;
+						}
+			
+                                        }
+                                }
+
                                 arsort($metaData);
                                 $totalCount=0;
+				$metaDataP1P2Count=0;
+                                $metaDataP1P2OpenCount=0;
                                 foreach($metaData as $key=>$value) {
                                         if ($key != "") {
                                           echo "<tr>";
                                           echo "<td>$key</td>";
                                           echo "<td align=center>$value</td>";
+                                          echo "<td align=center>$metaDataP1P2[$key]</td>";
+                                          echo "<td align=center>$metaDataP1P2Open[$key]</td>";
                                           echo "</tr>";
                                           $totalCount = $totalCount + $value;
+					  $metaDataP1P2Count = $metaDataP1P2[$key] + $metaDataP1P2Count;
+					  $metaDataP1P2OpenCount = $metaDataP1P2Open[$key] + $metaDataP1P2OpenCount;
                                         }
                                 }
-                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+				
+                                echo "<tr>";
+			        echo "<td><b>Total CRs</td>";
+			        echo "<td align=center><b>$totalCount </td>";
+				echo "<td align=center><b>$metaDataP1P2Count</td>";
+				echo "<td align=center><b>$metaDataP1P2OpenCount</td>";
+				echo "</tr>";
 
                         echo "</table>";
 
@@ -335,7 +363,8 @@ $EXOS3021="EXOS 30.2.1";
 
                     ####### Master Table - Beginning of Third Row - Print Priority Tables 
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
-                    echo "<tr height=25 bgcolor=605CA8><td colspan=4> <font color=white><center><b>$releaseName - P1/P2 CRs</td></tr>";
+                    echo "<tr height=25 bgcolor=605CA8><td colspan=3> <font color=white><center><b>$releaseName - P1/P2 CRs</td>";
+                    echo "<td> <font color=white><center><b>Top 10 Component/SubComponent</td></tr>";
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
                     echo "<tr>";
                      echo "<td valign=top>";
@@ -452,24 +481,26 @@ $EXOS3021="EXOS 30.2.1";
 
                      echo "<td valign=top>";
                         ##Master Table - Row 3 Col 4
-                        echo "<table border=1 width=90% align=right>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>New Feature CRs [P1/P2]</td></tr>";
+			echo "<table align=center border=0 width=100%><tr><td valign=top>";
+                          echo "<table border=1 width=90% align=right>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Top 10 Component</td></tr>";
                                 echo "<tr>";
-                                echo "<th bgcolor=DDEBF7>Feature Name</th>";
+                                echo "<th bgcolor=DDEBF7>Component</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
                                 echo "</tr>";
 
 
-                                unset($metaData);
+                                unset($componentListFull);
                                 foreach($crList as $data) {
-                                        if($data[releaseDetected] == $releaseName && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
-                                                @$metaData[$data['metaData']]++;
+                                        if($data[releaseDetected] == $releaseName) {
+                                                @$componentListFull[$data['component']]++;
                                         }
                                 }
 				
-				arsort($metaData);
+				arsort($componentListFull);
+				$componentList = array_slice($componentListFull, 0, 10, true);
 				$totalCount=0;
-                                foreach($metaData as $key=>$value) {
+                                foreach($componentList as $key=>$value) {
 					if ($key != "") {
                                           echo "<tr>";
                                           echo "<td>$key</td>";
@@ -479,12 +510,39 @@ $EXOS3021="EXOS 30.2.1";
 					}
                                 }
 				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+                          echo "</table>";
+			echo "</td><td valign=top>";
+                          echo "<table border=1 width=90% align=right>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Top 10 SubComponent</td></tr>";
+                                echo "<tr>";
+                                echo "<th bgcolor=DDEBF7>subComponent</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "</tr>";
 
-                        echo "</table>";
+
+                                unset($subcomponentListFull);
+                                foreach($crList as $data) {
+                                        if($data[releaseDetected] == $releaseName) {
+                                                @$subcomponentListFull[$data['subComponent']]++;
+                                        }
+                                }
+
+                                arsort($subcomponentListFull);
+                                $subcomponentList = array_slice($subcomponentListFull, 0, 10, true);
+                                $totalCount=0;
+                                foreach($subcomponentList as $key=>$value) {
+                                        if ($key != "") {
+                                          echo "<tr>";
+                                          echo "<td>$key</td>";
+                                          echo "<td align=center>$value</td>";
+                                          echo "</tr>";
+                                          $totalCount = $totalCount + $value;
+                                        }
+                                }
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+                          echo "</table>";
+			echo "</td></tr></table>";
                      echo "</td>";
-
-
-
 
                 #Master table end tag
                 echo "</tr>";
