@@ -600,7 +600,7 @@ $EXOS3021="EXOS 30.2.1";
                                 echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>SQA Pending</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Manager</th>";
-                                echo "<th bgcolor=DDEBF7><center>Pending CRs</th>";
+                                echo "<th bgcolor=DDEBF7><center>Total</th>";
                                 echo "</tr>";
 
                                 unset($crCreatorManager);
