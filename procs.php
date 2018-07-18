@@ -318,7 +318,73 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 users found";
 }
-#print_r($value);
+return $value;
+$conn->close();
+}
+
+
+
+#########################################################################################
+#                                                                                       #
+# Function to get the SQA Pending CRs including transition dates			#
+#                                                                                       #
+#########################################################################################
+function getSQAPendingList($conn, $releaseName, $targetRelease) {
+
+$sql = "SELECT * from (SELECT bugDescriptions.bugNumber as bugNumber, bugDescriptions.severity as severity, bugDescriptions.priority as priority, bugDescriptions.globalState as globalState, NULL as releaseState, bugDescriptions.creator as creator,ldapManagerName,
+       bugDescriptions.assignedTo, DATE_FORMAT(MAX(bugShortHistory.transitionDate),'%e/%b/%Y') AS transitiondate,
+       DATE(NOW()) as today, DATEDIFF(NOW(), MAX(bugShortHistory.transitionDate)) AS numDays,
+bugRelationships.bugNumber as relatedCRID, bugDescriptions1.globalState as relatedCRGlobalState, releaseTracking1.releaseState as relatedCRState
+FROM bugDescriptions
+LEFT JOIN bugShortHistory USING(bugNumber)
+LEFT JOIN releaseTracking USING(bugNumber)
+LEFT JOIN users ON bugDescriptions.creator=users.username
+LEFT JOIN bugRelationships ON bugDescriptions.bugNumber=bugRelationships.relatedTo
+LEFT join bugDescriptions bugDescriptions1 on bugDescriptions1.bugNumber=bugRelationships.bugNumber
+LEFT join releaseTracking releaseTracking1 on releaseTracking1.bugNumber=bugRelationships.bugNumber AND releaseTracking1.targetReleaseId='$targetRelease'
+WHERE (bugDescriptions.globalState='Feedback Needed' || bugDescriptions.globalState='Verify Duplicate' || bugDescriptions.globalState='Verify No Change')
+AND (bugDescriptions.releaseDetected='$releaseName' || releaseTracking.targetReleaseId=$targetRelease)
+AND (ldapManagerName like '%Velusamy%'      ||
+     ldapManagerName like '%Ramkumar%'      ||
+     ldapManagerName like '%Parthasarathy%' ||
+     ldapManagerName like '%Thuravupala%'   ||
+     ldapManagerName like '%Palanivel%'     ||
+     ldapManagerName like '%Raguraman%')
+GROUP BY bugDescriptions.bugNumber
+UNION
+SELECT bugNumber, severity, priority, globalState, releaseState, creator, verifierManager.ldapManagerName as ldapManagerName, relassignedTo as assignedTo,  DATE_FORMAT(MAX(transitionDate),'%e/%b/%Y') AS transitiondate,
+       DATE(NOW()) as today, DATEDIFF(NOW(), MAX(transitionDate)) AS numDays,
+       NULL as relatedCRID, NULL as relatedCRGlobalState, NULL as relatedCRState
+       FROM
+         (SELECT bugNumber, targetReleaseId, transitionDate, assignedTo as relassignedTo, releaseState
+               FROM bugShortHistory
+               LEFT JOIN releaseTracking USING(bugNumber)
+               WHERE targetReleaseId=$targetRelease
+               AND (releaseState='Verify Fix' || releaseState='Verify Task Complete')) AS tmpTbl1
+LEFT JOIN bugDescriptions USING(bugNumber)
+LEFT JOIN users as creatorManager ON bugDescriptions.creator=creatorManager.username
+LEFT JOIN users as verifierManager ON relassignedTo=verifierManager.username
+WHERE (releaseState='Verify Fix' || releaseState='Verify Task Complete')
+AND (verifierManager.ldapManagerName like '%Velusamy%'      ||
+     verifierManager.ldapManagerName like '%Ramkumar%'      ||
+     verifierManager.ldapManagerName like '%Parthasarathy%' ||
+     verifierManager.ldapManagerName like '%Thuravupala%'   ||
+     verifierManager.ldapManagerName like '%Palanivel%'     ||
+     verifierManager.ldapManagerName like '%Raguraman%')    
+GROUP BY bugNumber) as tmp
+order by ldapManagerName asc, globalState asc, numDays desc";
+
+$value = array();
+$result = $conn->query($sql);
+
+$userCount=0;
+if ($result->num_rows > 0) {
+     while($row = $result->fetch_assoc()) {
+      $value[] = $row;
+     }
+} else {
+    echo "0 records found";
+}
 return $value;
 $conn->close();
 }

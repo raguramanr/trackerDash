@@ -58,6 +58,7 @@ $autoMgr=array("Suresh Babu Thuravupala");
 $exosMgr=array("Gopla Ramkumar","Raj Velusamy","Shankar Palanivel","Uma Parthasarathy","Raguraman Rajan","Suresh Babu Thuravupala");
 
 $crList = getCRList($conn,$releaseName,$targetRelease);
+$sqaPendingList = getSQAPendingList($conn,$releaseName,$targetRelease);
 $EXOS2251="EXOS 22.5.1";
 $EXOS2261="EXOS 22.6.1";
 $EXOS2271="EXOS 22.7.1";
@@ -91,7 +92,7 @@ $EXOS3021="EXOS 30.2.1";
                 echo "</div>"; #<!-- /.box-header -->
                 echo "<div class=\"box-body\">";
 
-                echo "<table border=0 align=center width=80%>";
+                echo "<table border=0 align=center width=85%>";
                     echo "<tr height=25 bgcolor=65535><td colspan=3> <font color=white><center><b>$releaseName CRs - Including Retargets </td>";
 		    echo "<td bgcolor=605CA8> <font color=white><center><b>$releaseName - New Feature CRs </td></tr>";
                     echo "<tr><td colspan=4>&nbsp;</td></tr>";
@@ -135,12 +136,14 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 1 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - State Distribution </td></tr>";
+                                echo "<tr bgcolor=65535><td colspan=3><font color=white><center><b>Total CRs - State Distribution </td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>CR State</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
+				$totalCount=0;
                                 foreach($crList as $data) {
                                     @$crState[$data['crState']]++;
                                     $totalCount++;
@@ -151,6 +154,7 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<tr>";
                                         echo "<td>$key</td>";
                                         echo "<td align=center>$value</td>";
+                                        echo "<td align=center>". round(($value/$totalCount)*100) ."%</td>";
                                         echo "</tr>";
                                 }
 
@@ -160,13 +164,15 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 1 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=65535><td colspan=2><font color=white><center><b>Total CRs - Collateral/Other CRs</td></tr>";
+                                echo "<tr bgcolor=65535><td colspan=3><font color=white><center><b>Total CRs - Collateral/Other CRs</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Regression Flag</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
 
+				$totalCount=0;
                                 foreach($crList as $data) {
                                     @$crRegression[$data['passedPreviously']]++;
                                     $totalCount++;
@@ -176,6 +182,7 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<tr>";
                                         echo "<td>$key</td>";
                                         echo "<td align=center>$value</td>";
+                                        echo "<td align=center>". round(($value/$totalCount)*100) ."%</td>";
                                         echo "</tr>";
                                 }
 
@@ -266,10 +273,11 @@ $EXOS3021="EXOS 30.2.1";
 
                         ##Master Table - Row 2 Col 1
                         echo "<table border=1 width=90% align=left>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>State Distribution</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=3><font color=white><center><b>State Distribution</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>CR State</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
                                 unset($crState);
@@ -286,9 +294,10 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<tr>";
                                         echo "<td>$key</td>";
                                         echo "<td align=center>$value</td>";
+                                        echo "<td align=center>". round(($value/$totalCount)*100) ."% </td>";
                                         echo "</tr>";
                                 }
-                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td><td></td></tr>";
 
                         echo "</table>";
                      echo "</td>";
@@ -296,10 +305,11 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Team Distribution </td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=3><font color=white><center><b>Team Distribution </td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Team</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
 
@@ -324,9 +334,10 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<tr>";
                                         echo "<td>$key</td>";
                                         echo "<td align=center>$value</td>";
+                                        echo "<td align=center>". round(($value/$totalCount)*100) ."%</td>";
                                         echo "</tr>";
                                 }
-				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td><td></td></tr>";
 
                         echo "</table>";
                      echo "</td>";
@@ -334,12 +345,13 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 2 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=4><font color=white><center><b>Collateral/Other CRs</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=5><font color=white><center><b>Collateral/Other CRs</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Team</th>";
                                 echo "<th bgcolor=DDEBF7><center>Yes</th>";
                                 echo "<th bgcolor=DDEBF7><center>No</th>";
                                 echo "<th bgcolor=DDEBF7><center>Blank</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Collateral</th>";
                                 echo "</tr>";
 
                                 unset($crRegression);
@@ -366,6 +378,7 @@ $EXOS3021="EXOS 30.2.1";
 					echo "<td><center>$item[Yes]</td>";
 					echo "<td><center>$item[No]</td>";
 					echo "<td><center>$item[Blank]</td>";
+					echo "<td><center>". round(($item[Yes]/$totalCount)*100) ."%</td>";
                                 	echo "</tr>";
 				}
 
@@ -418,10 +431,11 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 3 Col 2
                         echo "<table border=1 width=90% align=center>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Team Distribution </td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=3><font color=white><center><b>Team Distribution </td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Team</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
                                 unset($crCreatorManager);
@@ -445,9 +459,10 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<tr>";
                                         echo "<td>$key</td>";
                                         echo "<td align=center>$value</td>";
+                                        echo "<td align=center>". round(($value/$totalCount)*100) ."%</td>";
                                         echo "</tr>";
                                 }
-                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td><td></td></tr>";
 
                         echo "</table>";
                      echo "</td>";
@@ -455,12 +470,13 @@ $EXOS3021="EXOS 30.2.1";
                      echo "<td valign=top>";
                         ##Master Table - Row 3 Col 3
                         echo "<table border=1 width=90% align=right>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=4><font color=white><center><b>Collateral/Other CRs</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=5><font color=white><center><b>Collateral/Other CRs</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Team</th>";
                                 echo "<th bgcolor=DDEBF7><center>Yes</th>";
                                 echo "<th bgcolor=DDEBF7><center>No</th>";
                                 echo "<th bgcolor=DDEBF7><center>Blank</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Collateral</th>";
                                 echo "</tr>";
 
                                 unset($crRegression);
@@ -487,6 +503,7 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<td><center>$item[Yes]</td>";
                                         echo "<td><center>$item[No]</td>";
                                         echo "<td><center>$item[Blank]</td>";
+                                        echo "<td><center>". round(($item[Yes]/$totalCount)*100) ."%</td>";
                                         echo "</tr>";
                                 }
 
@@ -581,11 +598,9 @@ $EXOS3021="EXOS 30.2.1";
 
                                 unset($crCreatorManager);
                                 $totalCount=0;
-                                foreach($crList as $data) {
-                                        if($data[crState] == "sqaPending" && in_array($data['creatorManager'],$exosMgr)) {
-                                                @$crCreatorManager[$data[creatorManager]]++;
+                                foreach($sqaPendingList as $data) {
+                                                @$crCreatorManager[$data[ldapManagerName]]++;
                                                 $totalCount++;
-                                        }
                                 }
 
                                 arsort($crCreatorManager);
@@ -606,39 +621,47 @@ $EXOS3021="EXOS 30.2.1";
 
                         ##Master Table - Row 4 Col 2
                         echo "<table border=1 width=100% align=center>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=8><font color=white><center><b>SQA Pending</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=13><font color=white><center><b>SQA Pending</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>CR Number</th>";
                                 echo "<th bgcolor=DDEBF7>Severity</th>";
                                 echo "<th bgcolor=DDEBF7>Priority</th>";
-                                echo "<th bgcolor=DDEBF7>Release</th>";
                                 echo "<th bgcolor=DDEBF7>GlobalState</th>";
                                 echo "<th bgcolor=DDEBF7>ReleaseState</th>";
                                 echo "<th bgcolor=DDEBF7>Creator</th>";
+                                echo "<th bgcolor=DDEBF7>AssignedTo</th>";
                                 echo "<th bgcolor=DDEBF7>Manager</th>";
+                                echo "<th bgcolor=DDEBF7>Transition</th>";
+                                echo "<th bgcolor=DDEBF7>Days Pending</th>";
+                                echo "<th bgcolor=DDEBF7>Related CR</th>";
+                                echo "<th bgcolor=DDEBF7>Related GlobalState</th>";
+                                echo "<th bgcolor=DDEBF7>Related CR State</th>";
                                 echo "</tr>";
 
-				#Sorting the array based on creatorManager
-				$crListSort = array();
-				foreach ($crList as $key => $row)
-				{
-    					$crListSort[$key] = $row['creatorManager'];
-				}
-				array_multisort($crListSort, SORT_ASC, $crList);
+				#Sorting the array based on ldapManagerName
+				#$crListSort = array();
+				#foreach ($sqaPendingList as $key => $row)
+				#{
+    				#	$sqaPendingListSort[$key] = $row['ldapManagerName'];
+				#}
+				#array_multisort($sqaPendingListSort, SORT_ASC, $sqaPendingList);
 
-                                foreach($crList as $data) {
-                                        if($data[crState] == "sqaPending" && in_array($data['creatorManager'],$exosMgr)) {
+                                foreach($sqaPendingList as $data) {
                                         	echo "<tr>";
                                         	echo "<td><a href=https://tracker.extremenetworks.com/cgi/trackerReport.pl?bugNumber=$data[bugNumber] target=\"_blank\">".$data[bugNumber]."</a></td>";
                                         	echo "<td>$data[severity]</td>";
                                         	echo "<td>$data[priority]</td>";
-                                        	echo "<td>$data[releaseDetected]</td>";
                                         	echo "<td>$data[globalState]</td>";
                                         	echo "<td>$data[releaseState]</td>";
                                         	echo "<td>$data[creator]</td>";
-                                        	echo "<td>$data[creatorManager]</td>";
+                                        	echo "<td>$data[assignedTo]</td>";
+                                        	echo "<td>$data[ldapManagerName]</td>";
+                                        	echo "<td>$data[transitiondate]</td>";
+                                        	echo "<td><center>$data[numDays]</td>";
+                                        	echo "<td>$data[relatedCRID]</td>";
+                                        	echo "<td>$data[relatedCRGlobalState]</td>";
+                                        	echo "<td>$data[relatedCRState]</td>";
                                         	echo "</tr>";
-                                        }
                                 }
 
                         echo "</table>";
