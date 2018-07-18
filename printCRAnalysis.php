@@ -515,18 +515,22 @@ $EXOS3021="EXOS 30.2.1";
                         ##Master Table - Row 3 Col 4
 			echo "<table align=center border=0 width=100%><tr><td valign=top>";
                           echo "<table border=1 width=90% align=right>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Top 10 Component</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=3><font color=white><center><b>Top 10 Component</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Component</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
 
                                 unset($componentListFull);
+				$totalCRCount=0;
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName) {
                                                 @$componentListFull[$data['component']]++;
+						$totalCRCount++;
                                         }
+					
                                 }
 				
 				arsort($componentListFull);
@@ -537,20 +541,22 @@ $EXOS3021="EXOS 30.2.1";
                                           echo "<tr>";
                                           echo "<td>$key</td>";
                                           echo "<td align=center>$value</td>";
+                                          echo "<td><center>". round(($value/$totalCRCount)*100) ."%</td>";
                                           echo "</tr>";
 					  $totalCount = $totalCount + $value;
 					}
                                 }
-				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+				echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td><td></td></tr>";
                           echo "</table>";
 
 			echo "</td><td valign=top>";
 
                           echo "<table border=1 width=90% align=right>";
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Top 10 SubComponent</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=3><font color=white><center><b>Top 10 SubComponent</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>SubComponent</th>";
                                 echo "<th bgcolor=DDEBF7><center>Total</th>";
+                                echo "<th bgcolor=DDEBF7><center>% Total</th>";
                                 echo "</tr>";
 
 
@@ -569,11 +575,12 @@ $EXOS3021="EXOS 30.2.1";
                                           echo "<tr>";
                                           echo "<td>$key</td>";
                                           echo "<td align=center>$value</td>";
+                                          echo "<td><center>". round(($value/$totalCRCount)*100) ."%</td>";
                                           echo "</tr>";
                                           $totalCount = $totalCount + $value;
                                         }
                                 }
-                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td><td></td></tr>";
                           echo "</table>";
 			echo "</td></tr></table>";
                      echo "</td>";
@@ -659,8 +666,8 @@ $EXOS3021="EXOS 30.2.1";
                                         	echo "<td>$data[transitiondate]</td>";
                                         	echo "<td><center>$data[numDays]</td>";
                                         	echo "<td>$data[relatedCRID]</td>";
-                                        	echo "<td>$data[relatedCRGlobalState]</td>";
-                                        	echo "<td>$data[relatedCRState]</td>";
+                                        	echo "<td><center>$data[relatedCRGlobalState]</td>";
+                                        	echo "<td><center>$data[relatedCRState]</td>";
                                         	echo "</tr>";
                                 }
 
