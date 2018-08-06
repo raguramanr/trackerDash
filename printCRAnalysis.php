@@ -59,6 +59,9 @@ $exosMgr=array("Gopla Ramkumar","Raj Velusamy","Shankar Palanivel","Uma Parthasa
 
 $crList = getCRList($conn,$releaseName,$targetRelease);
 $sqaPendingList = getSQAPendingList($conn,$releaseName,$targetRelease);
+$EXOS2221="EXOS 22.2.1";
+$EXOS2231="EXOS 22.3.1";
+$EXOS2241="EXOS 22.4.1";
 $EXOS2251="EXOS 22.5.1";
 $EXOS2261="EXOS 22.6.1";
 $EXOS2271="EXOS 22.7.1";
@@ -74,6 +77,9 @@ $EXOS3021="EXOS 30.2.1";
             echo "<small></small>";
           echo "</h2>";
           echo "<ol class=\"breadcrumb\">";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2221) . " ><font size=3>EXOS 22.2.1</font></a></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2231) . " ><font size=3>EXOS 22.3.1</font></a></li>";
+            echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2241) . " ><font size=3>EXOS 22.4.1</font></a></li>";
             echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2251) . " ><font size=3>EXOS 22.5.1</font></a></li>";
             echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2261) . " ><font size=3>EXOS 22.6.1</a></font></li>";
             echo "<li><a href=$PHP_SELF?releaseName=" . urlencode($EXOS2271) . " ><font size=3>EXOS 22.7.1</a></font></li>";
