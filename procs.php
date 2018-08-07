@@ -1617,7 +1617,7 @@ $myFile = "Data/$chartID.xml";
 unlink($myFile);
 $fh = fopen($myFile, 'w') or die("Can't open file");
 
-$chart_open = "<chart caption='' subcaption='' captionfontsize='14' subcaptionfontsize='14' basefontcolor='#333333' yAxisMinValue='0' basefont='Helvetica Neue,Arial' subcaptionfontbold='0' xaxisname='' yaxisname='' showvalues='1' palettecolors='#0075c2,#1aaf5d' bgcolor='#ffffff' showborder='0' showshadow='0' showalternatehgridcolor='0' showcanvasborder='0' showxaxisline='1' xaxislinethickness='1' xaxislinecolor='#999999' canvasbgcolor='#ffffff' legendborderalpha='0' legendshadow='0' divlinealpha='50' divlinecolor='#999999' divlinethickness='1' divlinedashed='1' divlinedashlen='1'>\n";
+$chart_open = "<chart caption='' subcaption='' exportEnabled='1' captionfontsize='14' subcaptionfontsize='14' basefontcolor='#333333' yAxisMinValue='0' basefont='Helvetica Neue,Arial' subcaptionfontbold='0' xaxisname='' yaxisname='' showvalues='1' palettecolors='#0075c2,#1aaf5d' bgcolor='#ffffff' showborder='0' showshadow='0' showalternatehgridcolor='0' showcanvasborder='0' showxaxisline='1' xaxislinethickness='1' xaxislinecolor='#999999' canvasbgcolor='#ffffff' legendborderalpha='0' legendshadow='0' divlinealpha='50' divlinecolor='#999999' divlinethickness='1' divlinedashed='1' divlinedashlen='1'>\n";
 $category_open = "<categories >\n";
 $category_close = "</categories>\n";
 $data_set_close= "</dataset>\n";
