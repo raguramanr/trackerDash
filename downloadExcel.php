@@ -65,7 +65,7 @@ if ($releaseName == "EXOS 22.3.1") {
                 OR bugDescriptions.releaseDetected = 'EXOS 30.5.1'";
 }
 
-$sql = "SELECT bugDescriptions.bugNumber as bugDescriptions_bugNumber,
+$sql = "select * from ( SELECT bugDescriptions.bugNumber as bugDescriptions_bugNumber,
     bugDescriptions.severity as bugDescriptions_severity,
     bugDescriptions.priority as bugDescriptions_priority,
     If(count(distinct(targetReleaseId))>1, concat(globalState,'*'), globalState) as bugDescriptions_globalState,
@@ -87,7 +87,7 @@ WHERE ( bugDescriptions.productFamily = 'xos' )
    $sqlCondition
    )
    AND ( bugDescriptions.severity <> '5 - New Feature' )
-GROUP BY bugDescriptions.bugNumber";
+GROUP BY bugDescriptions.bugNumber) t where (releases_releaseName not like '%Verified%' and releases_releaseName not like '%Released%') or isNull(releases_releaseName)";
 
 } elseif ($_GET[getReport] == "allCRs") {
 

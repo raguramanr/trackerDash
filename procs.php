@@ -138,7 +138,7 @@ if ($releaseName == "EXOS 22.3.1") {
 }
 
 $sql = "select (bugDescriptions_priority*1) as priority, count(bugDescriptions_priority) as priorityCount from (
-SELECT bugDescriptions.bugNumber as bugDescriptions_bugNumber,
+select * from ( SELECT bugDescriptions.bugNumber as bugDescriptions_bugNumber,
     bugDescriptions.severity as bugDescriptions_severity,
     bugDescriptions.priority as bugDescriptions_priority,
     If(count(distinct(targetReleaseId))>1, concat(globalState,'*'), globalState) as bugDescriptions_globalState,
@@ -160,7 +160,7 @@ WHERE ( bugDescriptions.productFamily = 'xos' )
    $sqlCondition
    )
    AND ( bugDescriptions.severity <> '5 - New Feature' ) 
-GROUP BY bugDescriptions.bugNumber)
+GROUP BY bugDescriptions.bugNumber) t where (releases_releaseName not like '%Verified%' and releases_releaseName not like '%Released%') or isNull(releases_releaseName))
 as t1 group by bugDescriptions_priority order by bugDescriptions_priority ASC";
 
 $result = $conn->query($sql);
