@@ -122,6 +122,10 @@ exit;
                   </div>
  		  <div class="form-group">
                       <select name="releaseSelection[]" size=10 multiple class="form-control">
+                        <option>EXOS 30.2.1</option>
+                        <option>EXOS 30.1.1</option>
+                        <option>EXOS 22.7.1</option>
+                        <option>EXOS 22.6.1</option>
                         <option>EXOS 22.5.1</option>
                         <option>EXOS 22.4.1</option>
                         <option>EXOS 22.3.1</option>
