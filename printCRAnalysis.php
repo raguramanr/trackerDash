@@ -404,20 +404,28 @@ $EXOS3021="EXOS 30.2.1";
 
                         ##Master Table - Row 3 Col 1
                         echo "<table border=1 width=90% align=left>"; 
-                                echo "<tr bgcolor=3C8DBC><td colspan=2><font color=white><center><b>Manager Distribution</td></tr>";
+                                echo "<tr bgcolor=3C8DBC><td colspan=3><font color=white><center><b>Manager Distribution</td></tr>";
                                 echo "<tr>";
                                 echo "<th bgcolor=DDEBF7>Manager</th>";
-                                echo "<th bgcolor=DDEBF7><center>P1/P2 CRs</th>";
+                                echo "<th bgcolor=DDEBF7><center>&nbsp;&nbsp;Total&nbsp;&nbsp;</th>";
+                                echo "<th bgcolor=DDEBF7><center>&nbsp;&nbsp;Open&nbsp;&nbsp;</th>";
                                 echo "</tr>";
 
                                 unset($crCreatorManager);
+                                unset($crCreatorManagerP1P2Open);
 				$totalCount=0;
+				$totalP1P2Count=0;
                                 foreach($crList as $data) {
                                         if($data[releaseDetected] == $releaseName) {
 					    if(in_array($data['creatorManager'],$exosMgr) && (($data[priority] == "1 - Critical") || ($data[priority] == "2 - Urgent"))) {
                                                 @$crCreatorManager[$data[creatorManager]]++;	
 						$totalCount++;
+						if($data[crState] == "open") {
+						   @$crCreatorManagerP1P2Open[$data[creatorManager]]++;
+						   $totalP1P2Count++;
+						}
 					    }
+
                                         }
                                 }
 
@@ -426,10 +434,11 @@ $EXOS3021="EXOS 30.2.1";
                                         echo "<tr>";
                                         echo "<td>$key</td>";
                                         echo "<td align=center>$value</td>";
+                                        echo "<td align=center>$crCreatorManagerP1P2Open[$key]</td>";
                                         echo "</tr>";
                                 }
 
-                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount </td></tr>";
+                                echo "<tr><td><b>Total CRs</td><td align=center><b>$totalCount</td><td align=center><b>$totalP1P2Count</td></tr>";
 
                         echo "</table>";
                      echo "</td>";
