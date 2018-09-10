@@ -106,16 +106,14 @@ if ($releaseName == "EXOS 22.3.1") {
    		OR bugDescriptions.releaseDetected = 'EXOS 22.5.1' 
    		OR bugDescriptions.releaseDetected = 'EXOS 22.6.1'";
 } elseif ($releaseName == "EXOS 22.7.1") {
-  $sqlCondition = "bugDescriptions.releaseDetected = 'EXOS 22.3.1' 
-   		OR bugDescriptions.releaseDetected = 'EXOS 22.4.1' 
-   		OR bugDescriptions.releaseDetected = 'EXOS 22.5.1' 
+  $sqlCondition = "bugDescriptions.releaseDetected = 'EXOS 22.5.1' 
    		OR bugDescriptions.releaseDetected = 'EXOS 22.6.1' 
+   		OR bugDescriptions.releaseDetected = 'EXOS 30.1.1' 
    		OR bugDescriptions.releaseDetected = 'EXOS 22.7.1'";
 } elseif ($releaseName == "EXOS 30.1.1") {
   $sqlCondition = "bugDescriptions.releaseDetected = 'EXOS 22.4.1' 
 		OR bugDescriptions.releaseDetected = 'EXOS 22.5.1' 
 		OR bugDescriptions.releaseDetected = 'EXOS 22.6.1' 
-		OR bugDescriptions.releaseDetected = 'EXOS 22.7.1' 
 		OR bugDescriptions.releaseDetected = 'EXOS 30.1.1'";
 } elseif ($releaseName == "EXOS 30.2.1") {
   $sqlCondition = "bugDescriptions.releaseDetected = 'EXOS 22.5.1'

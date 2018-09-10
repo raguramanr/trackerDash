@@ -417,6 +417,6 @@ if(isset($_POST['releaseName'])) {
 } elseif ($_GET[releaseName] != "") {
       main($_GET[releaseName]);
 } else {
-      main("EXOS 22.6.1");
+      main("EXOS 30.1.1");
 }
 ?>
